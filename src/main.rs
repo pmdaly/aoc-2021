@@ -6,4 +6,5 @@ fn main() {
     println!("Day 1b: {}", day01::part2());
 
     println!("Day 2a: {}", day02::part1());
+    println!("Day 2b: {}", day02::part2());
 }

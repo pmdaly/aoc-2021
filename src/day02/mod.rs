@@ -41,4 +41,35 @@ pub fn part1() -> i32 {
     return x*y;
 }
 
-
+pub fn part2() -> i32 {
+    let data = fs::read_to_string("./src/day02/input.txt")
+        .expect("file was not found");
+    let movements: Vec<Movement> = data
+        .lines()
+        .map(|line| {
+            let (direction, distance) = line.split_once(' ').unwrap();
+            Movement { 
+                direction: match direction {
+                    "up" => Direction::Up,
+                    "forward" => Direction::Forward,
+                    "down" => Direction::Down,
+                    _ => panic!("direction must be of Forward, Down or Up")
+                },
+                distance: distance.parse::<i32>().unwrap() 
+            }
+        }).collect();
+    let mut horizontal: i32 = 0;
+    let mut depth: i32 = 0;
+    let mut aim: i32 = 0;
+    for movement in movements {
+        match movement.direction {
+            Direction::Up => aim -= movement.distance,
+            Direction::Down => aim += movement.distance,
+            Direction::Forward => {
+                horizontal += movement.distance;
+                depth += movement.distance * aim
+            }
+        }
+    }
+    return horizontal * depth;
+}
